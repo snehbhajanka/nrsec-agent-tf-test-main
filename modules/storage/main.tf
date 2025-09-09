@@ -1,18 +1,18 @@
 resource "aws_s3_bucket" "storage_buckets" {
   for_each = var.buckets
-  
+
   bucket = "${var.project_name}-${var.environment}-storage-${each.key}"
 
   tags = {
-    Name = "${var.project_name}-${var.environment}-storage-${each.key}"
-    Type = "Storage"
+    Name          = "${var.project_name}-${var.environment}-storage-${each.key}"
+    Type          = "Storage"
     BucketPurpose = each.key
   }
 }
 
 resource "aws_s3_bucket_versioning" "storage_versioning" {
   for_each = { for k, v in var.buckets : k => v if v.versioning_enabled }
-  
+
   bucket = aws_s3_bucket.storage_buckets[each.key].id
   versioning_configuration {
     status = "Enabled"
@@ -21,7 +21,7 @@ resource "aws_s3_bucket_versioning" "storage_versioning" {
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "storage_encryption" {
   for_each = { for k, v in var.buckets : k => v if v.encryption_enabled }
-  
+
   bucket = aws_s3_bucket.storage_buckets[each.key].id
 
   rule {
@@ -34,7 +34,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "storage_encryptio
 
 resource "aws_s3_bucket_public_access_block" "storage_pab" {
   for_each = { for k, v in var.buckets : k => v if v.public_access_block }
-  
+
   bucket = aws_s3_bucket.storage_buckets[each.key].id
 
   block_public_acls       = true
@@ -46,12 +46,17 @@ resource "aws_s3_bucket_public_access_block" "storage_pab" {
 # Lifecycle configuration for temp storage
 resource "aws_s3_bucket_lifecycle_configuration" "temp_storage_lifecycle" {
   count = contains(keys(var.buckets), "temp-storage") ? 1 : 0
-  
+
   bucket = aws_s3_bucket.storage_buckets["temp-storage"].id
 
   rule {
     id     = "temp_cleanup"
     status = "Enabled"
+
+    # Add filter to specify which objects the rule applies to
+    filter {
+      prefix = ""
+    }
 
     expiration {
       days = 7
@@ -66,7 +71,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "temp_storage_lifecycle" {
 # Explicit bucket policy to deny all public access
 resource "aws_s3_bucket_policy" "storage_deny_public" {
   for_each = var.buckets
-  
+
   bucket = aws_s3_bucket.storage_buckets[each.key].id
 
   policy = jsonencode({
