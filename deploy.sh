@@ -102,6 +102,17 @@ destroy_terraform() {
     fi
 }
 
+# Function to run validation tests
+run_tests() {
+    print_status "Running validation tests..."
+    if [ -f "test-validation.sh" ]; then
+        ./test-validation.sh
+    else
+        print_error "test-validation.sh not found!"
+        exit 1
+    fi
+}
+
 # Function to show outputs
 show_outputs() {
     print_status "Showing Terraform outputs..."
@@ -121,12 +132,14 @@ show_help() {
     echo "  apply     Apply Terraform configuration"
     echo "  destroy   Destroy all infrastructure"
     echo "  output    Show Terraform outputs"
+    echo "  test      Run validation tests"
     echo "  deploy    Run init, validate, plan, and apply in sequence"
     echo "  help      Show this help message"
     echo ""
     echo "Examples:"
     echo "  $0 deploy    # Full deployment"
     echo "  $0 plan      # Just show what will be created"
+    echo "  $0 test      # Run validation tests"
     echo "  $0 output    # Show created resources"
 }
 
@@ -166,6 +179,9 @@ case "$1" in
         ;;
     "output")
         show_outputs
+        ;;
+    "test")
+        run_tests
         ;;
     "help"|"")
         show_help
