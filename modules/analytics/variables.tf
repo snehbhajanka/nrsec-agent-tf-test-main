@@ -11,9 +11,9 @@ variable "project_name" {
 variable "buckets" {
   description = "Map of bucket configurations"
   type = map(object({
-    versioning_enabled  = bool
-    encryption_enabled  = bool
-    lifecycle_enabled   = bool
-    transition_days     = number
+    versioning_enabled = bool
+    encryption_enabled = bool
+    lifecycle_enabled  = bool
+    transition_days    = number
   }))
 }
