@@ -32,7 +32,9 @@
 
 ### Manual Setup (Step by Step)
 - [ ] Navigate to project directory: `cd /Users/csuvarnakanti/Documents/Learning/nrsec-agent-tf-test`
-- [ ] Review settings in `terraform.tfvars`
+- [ ] Copy example config: `cp terraform.tfvars.example terraform.tfvars`
+- [ ] Review and update settings in `terraform.tfvars`
+- [ ] Validate configuration: `./validate.sh`
 - [ ] Initialize Terraform: `./deploy.sh init`
 - [ ] Validate configuration: `./deploy.sh validate`
 - [ ] Create deployment plan: `./deploy.sh plan`
@@ -105,6 +107,9 @@
 # Setup
 ./setup.sh                    # Automated setup
 ./deploy.sh help              # Show deployment options
+
+# Validation
+./validate.sh                 # Validate configuration (no AWS credentials needed)
 
 # Deployment
 ./deploy.sh init              # Initialize Terraform

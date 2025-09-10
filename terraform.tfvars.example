@@ -1,0 +1,20 @@
+# AWS Configuration
+aws_region = "us-east-1"
+
+# Project Configuration
+environment  = "dev"
+project_name = "nrsec-agent"
+
+# Example configurations for different environments:
+# 
+# For production:
+# environment = "prod"
+# aws_region = "us-west-2"
+#
+# For staging:
+# environment = "staging"  
+# aws_region = "us-east-2"
+#
+# For development:
+# environment = "dev"
+# aws_region = "us-east-1"
