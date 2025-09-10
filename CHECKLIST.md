@@ -26,17 +26,15 @@
 
 ### Quick Setup (Automated)
 - [ ] Navigate to project directory
-- [ ] Run comprehensive tests: `./test.sh` or `./deploy.sh test`
-- [ ] Run automated setup: `./setup.sh` (if available)
+- [ ] Run automated setup: `./setup.sh`
 - [ ] Follow prompts for configuration
 - [ ] Confirm deployment when prompted
 
 ### Manual Setup (Step by Step)
 - [ ] Navigate to project directory: `cd /Users/csuvarnakanti/Documents/Learning/nrsec-agent-tf-test`
-- [ ] Run comprehensive tests: `./test.sh`
 - [ ] Review settings in `terraform.tfvars`
 - [ ] Initialize Terraform: `./deploy.sh init`
-- [ ] Validate configuration: `./deploy.sh validate`  
+- [ ] Validate configuration: `./deploy.sh validate`
 - [ ] Create deployment plan: `./deploy.sh plan`
 - [ ] Review plan output carefully
 - [ ] Apply configuration: `./deploy.sh apply`
@@ -67,7 +65,6 @@
 - [ ] Delete test file: `aws s3 rm s3://[bucket-name]/test.txt`
 
 ### Configuration Tests
-- [ ] Run test suite: `./test.sh`
 - [ ] Verify encryption is enabled on appropriate buckets
 - [ ] Check versioning is enabled on specified buckets
 - [ ] Confirm public access is blocked

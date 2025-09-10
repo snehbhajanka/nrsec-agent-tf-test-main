@@ -28,34 +28,6 @@ This Terraform configuration creates 10 S3 buckets distributed across 3 modules:
 2. **Terraform**: Install Terraform (>= 1.0)
 3. **AWS Credentials**: Configure AWS credentials with appropriate permissions
 
-## Testing
-
-The repository includes comprehensive testing capabilities:
-
-### Test Script (`./test.sh`)
-Runs comprehensive tests without requiring AWS credentials:
-- Validates Terraform configuration syntax
-- Checks file structure and module integrity  
-- Verifies security configurations
-- Validates bucket count and configurations
-- Tests formatting and best practices
-
-```bash
-# Run all tests
-./test.sh
-
-# Or use the deploy script
-./deploy.sh test
-```
-
-### Dry Run Testing
-Test the configuration with AWS credentials but without deploying:
-
-```bash
-# Validate and plan without deployment
-./deploy.sh dry-run
-```
-
 ## Quick Start
 
 1. Clone this repository
@@ -110,30 +82,3 @@ After deployment, you'll get:
 - Bucket names and ARNs for all modules
 - Website endpoint for web-assets bucket
 - Summary of all created resources
-
-## Quick Reference Commands
-
-```bash
-# Testing
-./test.sh                       # Run comprehensive tests
-./deploy.sh test                # Run tests via deploy script
-./deploy.sh dry-run             # Validate and plan (requires AWS credentials)
-
-# Setup
-./deploy.sh help                # Show deployment options
-
-# Deployment
-./deploy.sh init                # Initialize Terraform
-./deploy.sh plan                # Create deployment plan
-./deploy.sh apply               # Deploy infrastructure
-./deploy.sh deploy              # Full deployment (init + plan + apply)
-
-# Management
-./deploy.sh output              # Show created resources
-aws s3 ls                       # List all S3 buckets
-./deploy.sh destroy             # Delete all resources
-
-# File Operations
-aws s3 cp file.txt s3://bucket-name/    # Upload file
-aws s3 ls s3://bucket-name/             # List bucket contents
-```

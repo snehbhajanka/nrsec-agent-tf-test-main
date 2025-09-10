@@ -1,18 +1,18 @@
 resource "aws_s3_bucket" "application_buckets" {
   for_each = var.buckets
-
+  
   bucket = "${var.project_name}-${var.environment}-app-${each.key}"
 
   tags = {
-    Name          = "${var.project_name}-${var.environment}-app-${each.key}"
-    Type          = "Application"
+    Name = "${var.project_name}-${var.environment}-app-${each.key}"
+    Type = "Application"
     BucketPurpose = each.key
   }
 }
 
 resource "aws_s3_bucket_versioning" "application_versioning" {
   for_each = { for k, v in var.buckets : k => v if v.versioning_enabled }
-
+  
   bucket = aws_s3_bucket.application_buckets[each.key].id
   versioning_configuration {
     status = "Enabled"
@@ -21,7 +21,7 @@ resource "aws_s3_bucket_versioning" "application_versioning" {
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "application_encryption" {
   for_each = { for k, v in var.buckets : k => v if v.encryption_enabled }
-
+  
   bucket = aws_s3_bucket.application_buckets[each.key].id
 
   rule {
@@ -34,7 +34,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "application_encry
 
 resource "aws_s3_bucket_public_access_block" "application_pab" {
   for_each = var.buckets
-
+  
   bucket = aws_s3_bucket.application_buckets[each.key].id
 
   block_public_acls       = true
@@ -45,7 +45,7 @@ resource "aws_s3_bucket_public_access_block" "application_pab" {
 
 resource "aws_s3_bucket_cors_configuration" "application_cors" {
   for_each = { for k, v in var.buckets : k => v if v.cors_enabled }
-
+  
   bucket = aws_s3_bucket.application_buckets[each.key].id
 
   cors_rule {
@@ -60,7 +60,7 @@ resource "aws_s3_bucket_cors_configuration" "application_cors" {
 # Explicit bucket policy to deny all public access
 resource "aws_s3_bucket_policy" "application_deny_public" {
   for_each = var.buckets
-
+  
   bucket = aws_s3_bucket.application_buckets[each.key].id
 
   policy = jsonencode({
