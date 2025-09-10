@@ -35,9 +35,9 @@ output "analytics_bucket_arns" {
 output "all_bucket_summary" {
   description = "Summary of all created buckets"
   value = {
-    total_buckets       = 10
-    storage_buckets     = length(module.storage_buckets.bucket_names)
+    total_buckets = 10
+    storage_buckets = length(module.storage_buckets.bucket_names)
     application_buckets = length(module.application_buckets.bucket_names)
-    analytics_buckets   = length(module.analytics_buckets.bucket_names)
+    analytics_buckets = length(module.analytics_buckets.bucket_names)
   }
 }

@@ -108,30 +108,6 @@ show_outputs() {
     terraform output
 }
 
-# Function to run tests
-run_tests() {
-    print_status "Running comprehensive tests..."
-    if [ -f "./test.sh" ]; then
-        ./test.sh
-    else
-        print_error "Test script not found. Please ensure test.sh exists."
-        exit 1
-    fi
-}
-
-# Function to dry-run (validate + plan without apply)
-dry_run() {
-    print_status "Running dry-run (validate + plan only)..."
-    check_prerequisites
-    if [ ! -d ".terraform" ]; then
-        init_terraform
-    fi
-    validate_terraform
-    plan_terraform
-    print_success "Dry-run completed! Review the plan above."
-    print_warning "No resources were created. Use 'deploy' or 'apply' to create resources."
-}
-
 # Function to show help
 show_help() {
     echo "AWS S3 Terraform Deployment Script"
@@ -146,13 +122,9 @@ show_help() {
     echo "  destroy   Destroy all infrastructure"
     echo "  output    Show Terraform outputs"
     echo "  deploy    Run init, validate, plan, and apply in sequence"
-    echo "  test      Run comprehensive configuration tests"
-    echo "  dry-run   Run validation and planning without deployment"
     echo "  help      Show this help message"
     echo ""
     echo "Examples:"
-    echo "  $0 test      # Run all tests"
-    echo "  $0 dry-run   # Validate and plan without deploying"
     echo "  $0 deploy    # Full deployment"
     echo "  $0 plan      # Just show what will be created"
     echo "  $0 output    # Show created resources"
@@ -194,12 +166,6 @@ case "$1" in
         ;;
     "output")
         show_outputs
-        ;;
-    "test")
-        run_tests
-        ;;
-    "dry-run")
-        dry_run
         ;;
     "help"|"")
         show_help
