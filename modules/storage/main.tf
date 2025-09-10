@@ -53,6 +53,10 @@ resource "aws_s3_bucket_lifecycle_configuration" "temp_storage_lifecycle" {
     id     = "temp_cleanup"
     status = "Enabled"
 
+    filter {
+      prefix = ""
+    }
+
     expiration {
       days = 7
     }

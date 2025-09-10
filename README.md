@@ -32,8 +32,9 @@ This Terraform configuration creates 10 S3 buckets distributed across 3 modules:
 
 1. Clone this repository
 2. Configure your AWS credentials
-3. Update `terraform.tfvars` with your desired values
-4. Run the deployment commands
+3. Copy `terraform.tfvars.example` to `terraform.tfvars` and update with your desired values
+4. Validate the configuration: `./validate.sh`
+5. Run the deployment commands
 
 ## Project Structure
 
@@ -41,7 +42,8 @@ This Terraform configuration creates 10 S3 buckets distributed across 3 modules:
 ├── main.tf                 # Main Terraform configuration
 ├── variables.tf            # Input variables
 ├── outputs.tf             # Output definitions
-├── terraform.tfvars       # Variable values
+├── terraform.tfvars.example # Example variable values
+├── validate.sh            # Configuration validation script
 ├── modules/
 │   ├── storage/           # Storage module (4 buckets)
 │   │   ├── main.tf
@@ -59,6 +61,21 @@ This Terraform configuration creates 10 S3 buckets distributed across 3 modules:
 ```
 
 ## Configuration
+
+### Validation
+
+Before deploying, you can validate your configuration:
+
+```bash
+./validate.sh
+```
+
+This script will:
+- Check Terraform installation
+- Validate configuration syntax
+- Verify all required files exist
+- Check module structure
+- Ensure proper formatting
 
 ### Variables
 

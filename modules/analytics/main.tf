@@ -52,6 +52,10 @@ resource "aws_s3_bucket_lifecycle_configuration" "analytics_lifecycle" {
     id     = "${each.key}_lifecycle"
     status = "Enabled"
 
+    filter {
+      prefix = ""
+    }
+
     transition {
       days          = each.value.transition_days
       storage_class = "STANDARD_IA"
