@@ -1,18 +1,18 @@
 resource "aws_s3_bucket" "analytics_buckets" {
   for_each = var.buckets
-  
+
   bucket = "${var.project_name}-${var.environment}-analytics-${each.key}"
 
   tags = {
-    Name = "${var.project_name}-${var.environment}-analytics-${each.key}"
-    Type = "Analytics"
+    Name          = "${var.project_name}-${var.environment}-analytics-${each.key}"
+    Type          = "Analytics"
     BucketPurpose = each.key
   }
 }
 
 resource "aws_s3_bucket_versioning" "analytics_versioning" {
   for_each = { for k, v in var.buckets : k => v if v.versioning_enabled }
-  
+
   bucket = aws_s3_bucket.analytics_buckets[each.key].id
   versioning_configuration {
     status = "Enabled"
@@ -21,7 +21,7 @@ resource "aws_s3_bucket_versioning" "analytics_versioning" {
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "analytics_encryption" {
   for_each = { for k, v in var.buckets : k => v if v.encryption_enabled }
-  
+
   bucket = aws_s3_bucket.analytics_buckets[each.key].id
 
   rule {
@@ -34,7 +34,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "analytics_encrypt
 
 resource "aws_s3_bucket_public_access_block" "analytics_pab" {
   for_each = var.buckets
-  
+
   bucket = aws_s3_bucket.analytics_buckets[each.key].id
 
   block_public_acls       = true
@@ -45,12 +45,17 @@ resource "aws_s3_bucket_public_access_block" "analytics_pab" {
 
 resource "aws_s3_bucket_lifecycle_configuration" "analytics_lifecycle" {
   for_each = { for k, v in var.buckets : k => v if v.lifecycle_enabled }
-  
+
   bucket = aws_s3_bucket.analytics_buckets[each.key].id
 
   rule {
     id     = "${each.key}_lifecycle"
     status = "Enabled"
+
+    # Add filter to specify which objects the rule applies to
+    filter {
+      prefix = ""
+    }
 
     transition {
       days          = each.value.transition_days
@@ -80,7 +85,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "analytics_lifecycle" {
 
 resource "aws_s3_bucket_policy" "analytics_deny_public" {
   for_each = var.buckets
-  
+
   bucket = aws_s3_bucket.analytics_buckets[each.key].id
 
   policy = jsonencode({
