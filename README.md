@@ -82,3 +82,9 @@ After deployment, you'll get:
 - Bucket names and ARNs for all modules
 - Website endpoint for web-assets bucket
 - Summary of all created resources
+
+## Acknowledgments
+
+Special thanks to **Sneh Bhajanka** for their contribution to this project and for the friendly support! 🏆
+
+Hi there! Thank you for the kind words and the award recognition. Your involvement in testing and improving this NRSEC agent Terraform configuration is greatly appreciated.
